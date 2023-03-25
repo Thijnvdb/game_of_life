@@ -83,6 +83,9 @@ fn update(_app: &App, model: &mut Model, update: Update) {
             for i in 0..model.field.len() {
                 model.field[i] = false;
             }
+
+            // stop on clear
+            model.active = false;
         }
     });
 
@@ -160,8 +163,8 @@ fn mouse_moved(app: &App, model: &mut Model, pos: Point2) {
 }
 
 fn mouse_released(app: &App, model: &mut Model, _button: MouseButton) {
-    if _button != MouseButton::Left {
-        return;
+    if _button != MouseButton::Left || model.active {
+        return; // do not handle clicks when active
     }
 
     let bounds = app.window_rect();
